@@ -22,7 +22,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://admin:dinesh@cluster0.icwkb.mongodb.net/user-profiles", {useNewUrlParser: true});
+mongoose.connect("process.env.MONGODB_URI", {useNewUrlParser: true});
 
 const userSechema = new mongoose.Schema({
     username: String,
