@@ -216,7 +216,7 @@ input {
 }
 
 .social-container {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .social-container a {
@@ -253,4 +253,23 @@ footer i {
 footer a {
   color: #ff416c;
   text-decoration: none;
+}
+
+input[type="checkbox"] {
+  display: inline;
+  margin: 1px 10px;
+  padding: 0px;
+  height: 14px;
+  width: 14px;
+  float: left;
+  vertical-align: middle;
+}
+
+.checkbox-div {
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+.formdesign {
+  width: 100%;
 }
