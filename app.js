@@ -22,7 +22,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://localhost:27017/user-profiles", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://admin:dinesh@cluster0.icwkb.mongodb.net/user-profiles", {useNewUrlParser: true});
 
 const userSechema = new mongoose.Schema({
     username: String,
@@ -48,19 +48,16 @@ passport.serializeUser(function(user, done) {
   });
 
 app.get("/", (req, res)=>{
-    res.render("login");
+    var messageDetail = " ";
+    res.render("login", {message: messageDetail});
 });
 
 app.get("/home", (req, res)=>{
-    User.find({"secret": {$ne: null}}, function(err, foundUser){
-        if(err){
-            console.log(err);
-        } else {
-            if(foundUser){
-                res.render("index", {userWithSecrets: foundUser});
-            }
-        }
-    });
+    if(req.isAuthenticated()){
+        res.render("index");
+    } else {
+        res.redirect("/login");
+    }
 });
 
 app.get("/logout", function(req, res){
@@ -82,10 +79,11 @@ app.post("/login", function(req, res){
     req.login(user, function(err){
         if(!err){
             passport.authenticate("local")(req, res, function(){
-                res.redirect("/index");
+                res.redirect("/home");
             });
         } else {
-            console.log(err);
+            console.log(err, { message: "incorrect password"});
+            res.redirect("/login");
         }
     })
 });
@@ -95,7 +93,7 @@ app.post("/register", function(req, res){
     User.register({username: req.body.username, email: req.body.email}, req.body.password, function(err, user){
         if(!err){
             passport.authenticate("local")(req, res, function(){
-                res.redirect("/index");
+                res.redirect("/home");
             });
         } else {
             console.log(err);
